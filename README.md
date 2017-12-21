@@ -6,3 +6,4 @@ Reinforcement Learning (RL) is the task of maximising future reward by choosing 
 ## Problem Setup
 The task is to learn an MDP with a finite set *A* of actions, and inifinite metric space *S* of states. Sometimes we assume S has large dimensions, in which case states may be referred to as feature vectors. The value function V(s) supposed to be smooth in the state s.
 
+## Solution Methods

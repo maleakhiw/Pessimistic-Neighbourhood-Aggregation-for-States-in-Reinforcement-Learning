@@ -34,9 +34,9 @@ Where Var(Nsa) is the variance of observed rewards in the neighbourhood Nsa. Thi
 
 Action are chosen optimistically according to the UCB
 
-![equation](http://bit.ly/2CtPdtd)  
+![equation](https://github.com/maleakhiw/Pessimistic-Neighbourhood-Aggregation-for-States-in-Reinforcement-Learning/blob/master/action_selection.jpg)  
 
-with c > 0 a small constant. The upper confidence bound is composed of two terms: The first terms is the estimated value, and the second term is an exploration bonus for action whose value is uncertain. Actions can have uncertain value either because they have rarely been selected or have a high variance among previous returns. Meanwhile, the neighbourhoods are chosen "pessimistically" for each action to minimise the exploration bonus. 
+with c > 0 a small constant. The upper confidence bound is composed of two terms: The first terms is the estimated value, and the second term is an exploration bonus for action whose value is uncertain. Actions can have uncertain value either because they have rarely been selected or have a high variance among previous returns. Meanwhile, the neighbourhoods are chosen "pessimistically" for each action to minimise the exploration bonus.
 
 ## Environment
 ### Mountain Car Domain

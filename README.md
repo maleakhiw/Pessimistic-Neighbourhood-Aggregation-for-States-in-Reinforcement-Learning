@@ -28,7 +28,7 @@ PNA may be viewed as a refinement for kNN, with k adapting to the situation. On 
 
 PNA suggests that when predicting the value of an action a in a state s, k should be chosen dynamically to minimise
 
-![equation](http://bit.ly/2C9254N)
+![equation](https://github.com/maleakhiw/Pessimistic-Neighbourhood-Aggregation-for-States-in-Reinforcement-Learning/blob/master/variance.jpg)
 
 Where Var(Nsa) is the variance of observed rewards in the neighbourhood Nsa. This is a negative version of the term endorsing exploration in the UCB algorithm. Here it promotes choosing neighbourhoods that contain as much data as possible but with small variation between rewards. For example, in the ideal choice of k, all k nearest neighbours of (s, a) behave similarly, but actions farther away behave very differently.
 

@@ -23,6 +23,21 @@ kNN-TD combines the concept of *K Nearest Neighbours* and *TD-Learning* to learn
 5. Observe the reward and update the Q values for all of the neighbours using SARSA or Q Learning.
 6. Repeat step 2-5
 
+### PNA (Pessimistic Neighbourhood Aggregation)
+PNA may be viewed as a refinement for kNN, with k adapting to the situation. On the one hand, it is beneficial to use large k since that means large data can be learn from. On the other hand, it is beneficial to learn only from the most similar past experiences (small k), as the data they provide should be the most relevant.
+
+PNA suggests that when predicting the value of an action a in a state s, k should be chosen dynamically to minimise
+
+![equation](http://bit.ly/2C9254N)
+
+Where Var(Nsa) is the variance of observed rewards in the neighbourhood Nsa. This is a negative version of the term endorsing exploration in the UCB algorithm. Here it promotes choosing neighbourhoods that contain as much data as possible but with small variation between rewards. For example, in the ideal choice of k, all k nearest neighbours of (s, a) behave similarly, but actions farther away behave very differently.
+
+Action are chosen optimistically according to the UCB
+
+![equation](http://bit.ly/2CtPdtd)  
+
+with c > 0 a small constant. The upper confidence bound is composed of two terms: The first terms is the estimated value, and the second term is an exploration bonus for action whose value is uncertain. Actions can have uncertain value either because they have rarely been selected or have a high variance among previous returns. Meanwhile, the neighbourhoods are chosen "pessimistically" for each action to minimise the exploration bonus. 
+
 ## Environment
 ### Mountain Car Domain
 Mountain Car is a standard testing domain in Reinforcement Learning, in which an under-powered car must drive up a steep hill. Since gravity is stronger than the car's engine, even at full throttle, the car cannot simply accelerate up the steep slope. The car is situated in a valley and must learn to leverage potential energy by driving up the opposite hill before the car is able to make it to the goal at the top of the rightmost hill.

@@ -15,10 +15,10 @@ kNN-TD combines the concept of *K Nearest Neighbours* and *TD-Learning* to learn
 2. When an agent in a particular state, get the feature vectors representing the state and possible actions from the state
 3. For each possible action from the state, calculate Q(s,a) pairs by taking the expected value from previous Q values based on k-nearest neighbours of a particular action.  
 *Steps for k-nearest neighbours:*
-  - Standardise every feature in the feature vectors to (-1, 1) or other ranges to make sure that 1 feature scaling not dominate the distance calculation
-  - Calculate the distance between current state and all of other points using distance formula (i.e. Euclidean distance) and store the k-nearest neighbours to knn vector, and it's distance
-  - Determine the weight (p(x)) for the expected value by using the inverse of the distance
-  - Estimate the Q(s,a) pairs using expectation formula using the weight and previous Q values of the kNN (average method)
+    - Standardise every feature in the feature vectors to (-1, 1) or other ranges to make sure that 1 feature scaling not dominate the distance calculation
+    - Calculate the distance between current state and all of other points using distance formula (i.e. Euclidean distance) and store the k-nearest neighbours to knn vector, and it's distance
+    - Determine the weight (p(x)) for the expected value by using the inverse of the distance
+    - Estimate the Q(s,a) pairs using expectation formula using the weight and previous Q values of the kNN (average method)
 4. Using UCB/ epsilon greedy decision method choose the next move
 5. Observe the reward and update the Q values for all of the neighbours using SARSA or Q Learning.
 6. Repeat step 2-5

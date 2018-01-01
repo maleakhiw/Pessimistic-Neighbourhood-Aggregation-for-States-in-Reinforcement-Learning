@@ -7,3 +7,14 @@ Reinforcement Learning (RL) is the task of maximising future reward by choosing 
 The task is to learn an MDP with a finite set *A* of actions, and inifinite metric space *S* of states. Sometimes we assume S has large dimensions, in which case states may be referred to as feature vectors. The value function V(s) supposed to be smooth in the state s.
 
 ## Solution Methods
+
+
+## Environment
+
+#### Mountain Car Domain
+Mountain Car is a standard testing domain in Reinforcement Learning, in which an under-powered car must drive up a steep hill. Since gravity is stronger than the car's engine, even at full throttle, the car cannot simply accelerate up the steep slope. The car is situated in a valley and must learn to leverage potential energy by driving up the opposite hill before the car is able to make it to the goal at the top of the rightmost hill.
+
+![Mountain Car](https://github.com/maleakhiw/Pessimistic-Neighbourhood-Aggregation-for-States-in-Reinforcement-Learning/blob/master/mountain-car.png)
+The picture and description is taken from Wikipedia. For more information, you can visit <a href="https://en.wikipedia.org/wiki/Mountain_car_problem">here</a>
+
+

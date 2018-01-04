@@ -1,4 +1,4 @@
-# Pessimistic Neigbourhood Aggregation for States in Reinforcement Learning
+# Pessimistic Neighbourhood Aggregation for States in Reinforcement Learning
 
 ## Description
 Reinforcement Learning (RL) is the task of maximising future reward by choosing the right actions in the right states. The agent typically starts out with limited knowledge about the environment, and learns from experience. When the number of states is finite and not too large, simple learning mechanisms can be devised relying on visiting the state many times. However, when the number of states is very large or infinite, no state may be visited twice. In order to learn, the agent needs to extrapolate the value of action in one state from experience from similar states. The purpose of this project will be to explore a few novel ideas for how to do this extrapolation.
@@ -8,19 +8,19 @@ The task is to learn an MDP with a finite set *A* of actions, and infinite metri
 
 ## Solution Methods
 ### kNN-TD
-kNN-TD combines the concept of *K Nearest Neighbours* and *TD-Learning* to learn and evaluate Q values in both continuous and discrete state space RL problems. This method is especially useful in continuous states RL problems as the number of (state, action) pairs is very large and thus impossible to store and learn this information. By choosing a particular k-values and decided some initial points over continuous states, one can estimate Q values based on averaging the Q values of the k-nearest neighbours for the state that the agent are currently in and use that values to decide the next move using some decision methods (i.e. UCB or epsilon-greedy). As for the learning process, one can update all of the k-nearest neighbours that contribute for the Q calculation.
+kNN-TD combines the concept of *K-Nearest Neighbours* and *TD-Learning* to learn and evaluate Q values in both continuous and discrete state space RL problems. This method is especially useful in continuous states RL problems as the number of (state, action) pairs is very large and thus impossible to store and learn this information. By choosing a particular k-values and decided some initial points over continuous states, one can estimate Q values based on calculated the weighted average of Q values of the k-nearest neighbours for the state that the agent are currently in and use that values to decide the next move using some decision methods (i.e. UCB or epsilon-greedy). As for the learning process, one can update all of the k-nearest neighbours that contribute for the Q calculation.
 
 **Algorithm:**
-1. Cover the whole state space by some initial Q(s,a) pairs, possibly scatter it uniformly across the whole state space and give an initial value of 0  
+1. Cover the whole state space by some initial Q(s,a) pairs, possibly scatter it uniformly across the whole state space and give an initial value of 0/ -1
 2. When an agent in a particular state, get the feature vectors representing the state and possible actions from the state
 3. For each possible action from the state, calculate Q(s,a) pairs by taking the expected value from previous Q values based on k-nearest neighbours of a particular action.  
 *Steps for k-nearest neighbours:*
-    - Standardise every feature in the feature vectors to (-1, 1) or other ranges to make sure that 1 feature scaling not dominate the distance calculation
-    - Calculate the distance between current state and all of other points using distance formula (i.e. Euclidean distance) and store the k-nearest neighbours to knn vector, and it's distance
-    - Determine the weight (p(x)) for the expected value by using the inverse of the distance
-    - Estimate the Q(s,a) pairs using expectation formula using the weight and previous Q values of the kNN (average method)
-4. Using UCB/ epsilon greedy decision method choose the next move
-5. Observe the reward and update the Q values for all of the neighbours using SARSA or Q Learning.
+    - Standardise every feature in the feature vectors to (-1, 1) or other ranges to make sure that one feature scale not dominate the distance calculation (i.e. if position ranges between (-50, 50) and velocity (-0.7, 0.7) position will dominate distance calculation).
+    - Calculate the distance between current state and all of other points with the same action using distance formula (i.e. Euclidean distance) and store the k-nearest neighbours to knn vector, and it's distance (for weight) in weight vector
+    - Determine the probability p(x) for the expected value by using weight calculation (i.e. weight = 1/distance). To calculate weight, one can use other formula as long as that formula gives more weight to closer point. To calculate p(x) just divide individual weight with sum of all weights to get probability
+    - Estimate the Q(s,a) pairs using expectation formula from kNN previous Q values
+4. Using epsilon greedy/ UCB/ other decision methods to choose the next move
+5. Observe the reward and update the Q values for all of the neighbours on knn vector using SARSA or Q Learning. (on the code below, I use Q Learning)
 6. Repeat step 2-5
 
 ### PNA (Pessimistic Neighbourhood Aggregation)
@@ -37,6 +37,21 @@ Action are chosen optimistically according to the UCB
 ![equation](https://github.com/maleakhiw/Pessimistic-Neighbourhood-Aggregation-for-States-in-Reinforcement-Learning/blob/master/pictures/action_selection.jpg)  
 
 with c > 0 a small constant. The upper confidence bound is composed of two terms: The first terms is the estimated value, and the second term is an exploration bonus for action whose value is uncertain. Actions can have uncertain value either because they have rarely been selected or have a high variance among previous returns. Meanwhile, the neighbourhoods are chosen "pessimistically" for each action to minimise the exploration bonus.
+
+**Algorithm:**
+1. Cover the whole state space by some initial Q(s,a) pairs, possibly scatter it uniformly across the whole state space and give an initial value of 0/ -1
+2. When an agent in a particular state, get the feature vectors representing the state and possible actions from the state
+3. For each possible action from the state, calculate Q(s,a) pairs by taking the expected value from previous Q values based on k-nearest neighbours of a particular action. With PNA, we also need to dynamically consider the k values
+*Steps for PNA:*
+    - Standardise every feature in the feature vectors to (-1, 1) or other ranges to make sure that one feature scale not dominate the distance calculation (i.e. if position ranges between (-50, 50) and velocity (-0.7, 0.7) position will dominate distance calculation).
+    - Calculate the distance between current state and all of other points with the same action using distance formula (i.e. Euclidean distance) and sort based on the closest distance
+    - Determine k by minimising the variance function described above
+    - Store the k-nearest neighbours to knn vector, and it's distance (for weight) in weight vector
+    - Determine the probability p(x) for the expected value by using weight calculation (i.e. weight = 1/distance). To calculate weight, one can use other formula as long as that formula gives more weight to closer point. To calculate p(x) just divide individual weight with sum of all weights to get probability
+    - Estimate the Q(s,a) pairs using expectation formula from kNN previous Q values
+4. Using epsilon greedy/ UCB/ other decision methods to choose the next move
+5. Observe the reward and update the Q values for all of the neighbours on knn vector using SARSA or Q Learning. (on the code below, I use Q Learning)
+6. Repeat step 2-5
 
 ## Environment
 ### Mountain Car Domain
